@@ -3,39 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONCTION MINISTRY TV</title>
+    <title>Onction Ministry TV - Médias</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .planning-section {
-            padding: 60px 20px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
         }
-        .planning-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 2rem;
-            color: #0c1013;
-        }
-        .planning-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 40px auto;
+            padding: 0 20px;
         }
-        .card-planning {
-            background: white;
-            border-radius: 10px;
+        h2 { text-align: center; color: #1a1a1a; margin-bottom: 40px; font-size: 2rem; }
+        #liste-cultes { display: flex; flex-direction: column; gap: 40px; }
+        .culte-container {
+            background: #ffffff;
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-top: 5px solid #007bff;
-            transition: transform 0.2s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eef2f5;
         }
-        .card-planning:hover { transform: translateY(-5px); }
-        .card-planning.evenement { border-top-color: #e91e63; }
-        .card-planning h4 { margin: 0 0 12px 0; font-size: 1.3rem; color: #1a202c; }
-        .card-planning .horaire { font-weight: bold; color: #4a5568; margin-bottom: 12px; }
-        .card-planning p { color: #718096; line-height: 1.5; margin: 0; }
+        .culte-header { border-bottom: 2px solid #f0f2f5; padding-bottom: 15px; margin-bottom: 20px; }
+        .culte-header h3 { margin: 0 0 8px 0; font-size: 1.5rem; color: #0c1013; }
+        .culte-date { font-size: 0.9rem; color: #718096; font-weight: 500; }
+        .culte-body { display: flex; gap: 25px; flex-wrap: wrap; }
+        .culte-player { flex: 1.2; min-width: 320px; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15); aspect-ratio: 16 / 9; }
+        .culte-player iframe { width: 100%; height: 100%; border: none; }
+        .culte-download-panel { flex: 1; min-width: 320px; border: 1px solid #e2e8f0; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column; overflow: hidden; }
+        .tabs-header { display: flex; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: none; cursor: pointer; font-weight: 600; font-size: 1rem; color: #64748b; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .tab-btn:hover { background: #f1f5f9; color: #1e293b; }
+        .tab-btn.active { background: #ffffff; color: #e91e63; border-bottom: 3px solid #e91e63; }
+        .tab-content { display: none; padding: 20px; flex-grow: 1; }
+        .tab-content.active { display: block; }
+        .download-table { width: 100%; border-collapse: collapse; }
+        .download-table th { text-align: left; color: #64748b; font-size: 0.85rem; text-transform: uppercase; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0; }
+        .download-table td { padding: 16px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; color: #334155; vertical-align: middle; }
+        .btn-green { display: inline-flex; align-items: center; gap: 8px; background-color: #2ecc71; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s ease; border: none; }
+        .btn-green:hover { background-color: #27ae60; }
+        .no-data { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
+
+        /* ==========================================================================
+           NETTOYAGE ET FORCE RESPONSIVE POUR MOBILE (Écrans de moins de 768px)
+           ========================================================================== */
+        @media screen and (max-width: 768px) {
+            /* On force la barre à s'étendre verticalement et proprement */
+            .navbar {
+                flex-direction: column !important;
+                height: auto !important;
+                padding: 15px 5px !important;
+                gap: 12px !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+            
+            .logo-container {
+                margin: 0 auto !important;
+                justify-content: center !important;
+            }
+
+            .logo-text {
+                font-size: 1.1rem !important; /* Réduction pour éviter le débordement */
+            }
+
+            /* Alignement vertical propre des liens à 100% de largeur */
+            .nav-links {
+                flex-direction: column !important;
+                display: flex !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                gap: 8px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                list-style: none !important;
+            }
+
+            .nav-links li {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Transformation des boutons en blocs tactiles faciles à cliquer */
+            .nav-links a, .btn-media {
+                display: block !important;
+                width: 90% !important;
+                margin: 0 auto !important;
+                box-sizing: border-box !important;
+                padding: 10px !important;
+                font-size: 0.95rem !important;
+                text-align: center !important;
+                border-radius: 5px !important;
+            }
+
+            /* Redimensionnement du bloc principal et du lecteur vidéo */
+            .container {
+                margin: 15px auto !important;
+                padding: 0 10px !important;
+            }
+            h2 {
+                font-size: 1.4rem !important;
+                margin-bottom: 25px !important;
+            }
+            .culte-container {
+                padding: 15px !important;
+            }
+            .culte-body {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
+            .culte-player, 
+            .culte-download-panel {
+                width: 100% !important;
+                min-width: 100% !important;
+                flex: none !important;
+            }
+
+            /* Optimisation des onglets et tableaux de téléchargement */
+            .tab-content {
+                padding: 15px 5px !important;
+            }
+            .download-table td {
+                padding: 12px 4px !important;
+                font-size: 0.85rem !important;
+            }
+            .btn-green {
+                padding: 10px !important;
+                font-size: 0.8rem !important;
+                justify-content: center !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -54,67 +157,94 @@
     </ul>
 </nav>
 
-<section class="hero-section" id="accueil">
-    <div class="slideshow-container">
-        <div class="mySlides fade"><img src="image/image3.jpg"></div>
-        <div class="mySlides fade"><img src="image/image12.jpg"></div>
-        <div class="mySlides fade"><img src="image/image6.jpg"></div>
+<div class="container">
+    <h2>🎥 Vidéos & Audios des Cultes</h2>
+    <div id="liste-cultes">
+        <p class="no-data">Chargement des cultes en cours...</p>
     </div>
+</div>
 
-    <div class="hero-content">
-        <h1>Onction Ministry</h1>
-        <p>JESUS CHRIST Roi des rois</p>
-        <p>DIEU DES SITUATIONS LAZARE ET DES ORDONNANCES IRRÉVOCABLES</p>
-    </div>
-</section>
+<script>
+    function switchTab(event, panelId) {
+        const panelContainer = event.target.closest('.culte-download-panel');
+        panelContainer.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        panelContainer.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        event.target.classList.add('active');
+        panelContainer.querySelector(`#${panelId}`).classList.add('active');
+    }
 
-<section id="about" class="about-section">
-    <div class="about-container">
-        <div class="about-text">
-            <h2>Apôtre Barack Israël et la Prophétesse Deborah Sarha Jérusalem</h2>
-            <p>
-               L'Apôtre Barack Israël et la Prophétesse Deborah Sarha Jérusalem sont des serviteurs de Dieu de nationalité gabonaise. Ils dirigent ensemble un Ministère Apostolique fondé sur la foi et la Parole de Dieu.
-            </p>   
-            <p> 
-              L'Apôtre Barack Israël a reçu du Seigneur Jésus-Christ une mission précise : préparer l'Église — la purifier, l'affermir dans la vérité et la sainteté — en vue du retour de Christ.
-            </p> 
-            <p>
-              Depuis le Gabon, ce ministère porte un message de réveil et d'édification du Corps de Christ, exercé avec humilité, puissance et fidélité à la Parole de Dieu.
-            </p>
-            <strong><p>« Éphésiens 4 : 11-12 »</p></strong>
-        </div>
-        <div class="about-image">
-            <img src="image/image5.jpg" alt="Pasteurs Onction Ministry">
-        </div>
-    </div>
-</section>
+    const backendUrl = 'http://127.0.0.1:5000/api/cultes'; 
+    const conteneur = document.getElementById('liste-cultes');
 
-<footer class="main-footer" id="contact">
-    <div class="footer-content">
-        <div class="footer-logo">
-            <img src="image/image1.jpg" alt="Logo" class="logo-rond-small">
-            <h3>ONCTION MINISTRY TV</h3>
-        </div>
-        <div class="footer-links">
-            <h4>Navigation</h4>
-            <ul>
-                <li><a href="index.html#accueil">Accueil</a></li>
-                <li><a href="index.html#about">À propos</a></li>
-                <li><a href="nos-cultes.html">Nos Cultes</a></li>
-                <li><a href="cultes.html">Vidéo - Audio Culte</a></li>
-            </ul>
-        </div>
-        <div class="footer-contact">
-            <h4>Contact</h4>
-            <p>📍 Libreville, Gabon</p>
-            <p>contact@onctionministry.com</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 ONCTION MINISTRY TV - Tous droits réservés.</p>
-    </div>
-</footer>
+    fetch(backendUrl)
+        .then(response => {
+            if (!response.ok) { throw new Error("Impossible de joindre le serveur Flask"); }
+            return response.json();
+        })
+        .then(cultes => {
+            conteneur.innerHTML = '';
+            if (cultes.length === 0) {
+                conteneur.innerHTML = '<p class="no-data">Aucun culte n\'a été publié pour le moment.</p>';
+                return;
+            }
 
-<script src="js/slideshow.js"></script>
+            cultes.forEach((culte, index) => {
+                const audioId = `audio-${index}`;
+                const videoId = `video-${index}`;
+                const blocCulte = document.createElement('div');
+                blocCulte.className = 'culte-container';
+
+                let dateAffichee = culte.date_culte;
+                if(dateAffichee && dateAffichee.includes('00:00:00')) {
+                    dateAffichee = dateAffichee.split(' ')[0];
+                }
+
+                blocCulte.innerHTML = `
+                    <div class="culte-header">
+                        <h3>${culte.titre}</h3>
+                        <div class="culte-date">📅 Date du culte : ${dateAffichee}</div>
+                    </div>
+                    <div class="culte-body">
+                        <div class="culte-player">
+                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/preview" allow="autoplay" allowfullscreen></iframe>
+                        </div>
+                        <div class="culte-download-panel">
+                            <div class="tabs-header">
+                                <button class="tab-btn active" onclick="switchTab(event, '${audioId}')">🎵 Audio</button>
+                                <button class="tab-btn" onclick="switchTab(event, '${videoId}')">🎥 Video</button>
+                            </div>
+                            <div id="${audioId}" class="tab-content active">
+                                <table class="download-table">
+                                    <thead><tr><th>Type de fichier</th><th>Action</th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Version Audio (MP3)</td>
+                                            <td><a href="https://drive.google.com/uc?export=download&id=${culte.audio_drive_id}" class="btn-green" target="_blank">📥 Download</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="${videoId}" class="tab-content">
+                                <table class="download-table">
+                                    <thead><tr><th>Format</th><th>Action</th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Fichier Vidéo (MP4)</td>
+                                            <td><a href="https://drive.google.com/uc?export=download&id=${culte.video_drive_id}" class="btn-green" target="_blank">📥 Download</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                conteneur.appendChild(blocCulte);
+            });
+        })
+        .catch(error => {
+            console.error("Erreur:", error);
+            conteneur.innerHTML = `<p class="no-data" style="color:red;">⚠️ Erreur de connexion avec le serveur Backend Flask. Assure-toi qu'il est bien démarré.</p>`;
+        });
+</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onction Ministry TV - Jours de Culte & Agenda</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
+   <style>
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #f5f7fa;
@@ -52,58 +52,72 @@
         .card-planning p { color: #718096; line-height: 1.5; margin: 0; }
 
         /* ==========================================================================
-           ADAPTATION ÉCRANS MOBILES (Smartphone et Tablettes verticales)
+           NETTOYAGE ET FORCE RESPONSIVE POUR MOBILE (Écrans de moins de 768px)
            ========================================================================== */
         @media screen and (max-width: 768px) {
-            /* 1. Rendre la barre de navigation responsive */
+            /* On force la barre à s'étendre verticalement et proprement sans rien cacher */
             .navbar {
                 flex-direction: column !important;
-                padding: 15px 10px !important;
-                gap: 15px !important;
+                height: auto !important;
+                padding: 15px 5px !important;
+                gap: 12px !important;
+                display: flex !important;
+                align-items: center !important;
             }
-            .nav-links {
-                flex-direction: column !important;
-                width: 100% !important;
-                gap: 10px !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .nav-links li {
-                width: 100% !important;
-                text-align: center !important;
-            }
-            .nav-links a, .btn-media {
-                display: block !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-                padding: 12px !important; /* Zone de clic plus large au doigt */
+            
+            .logo-container {
+                margin: 0 auto !important;
+                justify-content: center !important;
             }
 
-            /* 2. Ajustements de la page et de la grille d'agenda */
+            .logo-text {
+                font-size: 1.1rem !important; /* On réduit le texte du logo pour pas qu'il déborde */
+            }
+
+            /* On force la liste des liens à s'aligner verticalement à 100% de largeur */
+            .nav-links {
+                flex-direction: column !important;
+                display: flex !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                gap: 8px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                list-style: none !important;
+            }
+
+            .nav-links li {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Des boutons bien proportionnés, visibles et faciles à cliquer au doigt */
+            .nav-links a, .btn-media {
+                display: block !important;
+                width: 90% !important;
+                margin: 0 auto !important;
+                box-sizing: border-box !important;
+                padding: 10px !important;
+                font-size: 0.95rem !important;
+                text-align: center !important;
+                border-radius: 5px !important;
+            }
+
+            /* Ajustement des cartes d'agenda pour éviter les tailles disproportionnées */
             .container {
-                margin: 20px auto;
-                padding: 0 15px;
+                margin: 15px auto !important;
+                padding: 0 10px !important;
             }
             .section-title {
-                font-size: 1.4rem;
-                margin-bottom: 30px;
+                font-size: 1.3rem !important;
             }
             .planning-grid {
-                /* Sur petit écran, on force une seule colonne propre */
-                grid-template-columns: 1fr; 
-                gap: 15px;
+                grid-template-columns: 1fr !important; /* Une seule colonne parfaite */
+                gap: 15px !important;
             }
             .card-planning {
-                padding: 20px;
-            }
-            .card-planning h4 {
-                font-size: 1.15rem;
-            }
-            .card-planning .horaire {
-                font-size: 0.9rem;
-            }
-            .card-planning p {
-                font-size: 0.9rem;
+                padding: 15px !important;
             }
         }
     </style>
