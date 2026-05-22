@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONCTION MINISTRY TV</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .planning-section {
+            padding: 60px 20px;
+            background-color: #f5f7fa;
+        }
+        .planning-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: #0c1013;
+        }
+        .planning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card-planning {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #007bff;
+            transition: transform 0.2s;
+        }
+        .card-planning:hover { transform: translateY(-5px); }
+        .card-planning.evenement { border-top-color: #e91e63; }
+        .card-planning h4 { margin: 0 0 12px 0; font-size: 1.3rem; color: #1a202c; }
+        .card-planning .horaire { font-weight: bold; color: #4a5568; margin-bottom: 12px; }
+        .card-planning p { color: #718096; line-height: 1.5; margin: 0; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo-container">
+        <img src="image/image1.jpg" alt="Logo" class="logo-rond">
+        <span class="logo-text">ONCTION MINISTRY TV</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="Qui sommes-nous.html">Qui sommes-nous ?</a></li>
+        <li><a href="culte.html">Nos Cultes</a></li>
+        <li><a href="contacts.html">Contacts</a></li>
+        <li><a href="audio-video.html" class="btn-media" style="background-color: #f1c40f; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none;">Vidéo - Audio Culte</a></li>
+    </ul>
+</nav>
+
+<section class="hero-section" id="accueil">
+    <div class="slideshow-container">
+        <div class="mySlides fade"><img src="image/image3.jpg"></div>
+        <div class="mySlides fade"><img src="image/image12.jpg"></div>
+        <div class="mySlides fade"><img src="image/image6.jpg"></div>
+    </div>
+
+    <div class="hero-content">
+        <h1>Onction Ministry</h1>
+        <p>JESUS CHRIST Roi des rois</p>
+        <p>DIEU DES SITUATIONS LAZARE ET DES ORDONNANCES IRRÉVOCABLES</p>
+    </div>
+</section>
+
+<section id="about" class="about-section">
+    <div class="about-container">
+        <div class="about-text">
+            <h2>Apôtre Barack Israël et la Prophétesse Deborah Sarha Jérusalem</h2>
+            <p>
+               L'Apôtre Barack Israël et la Prophétesse Deborah Sarha Jérusalem sont des serviteurs de Dieu de nationalité gabonaise. Ils dirigent ensemble un Ministère Apostolique fondé sur la foi et la Parole de Dieu.
+            </p>   
+            <p> 
+              L'Apôtre Barack Israël a reçu du Seigneur Jésus-Christ une mission précise : préparer l'Église — la purifier, l'affermir dans la vérité et la sainteté — en vue du retour de Christ.
+            </p> 
+            <p>
+              Depuis le Gabon, ce ministère porte un message de réveil et d'édification du Corps de Christ, exercé avec humilité, puissance et fidélité à la Parole de Dieu.
+            </p>
+            <strong><p>« Éphésiens 4 : 11-12 »</p></strong>
+        </div>
+        <div class="about-image">
+            <img src="image/image5.jpg" alt="Pasteurs Onction Ministry">
+        </div>
+    </div>
+</section>
+
+<footer class="main-footer" id="contact">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="image/image1.jpg" alt="Logo" class="logo-rond-small">
+            <h3>ONCTION MINISTRY TV</h3>
+        </div>
+        <div class="footer-links">
+            <h4>Navigation</h4>
+            <ul>
+                <li><a href="index.html#accueil">Accueil</a></li>
+                <li><a href="index.html#about">À propos</a></li>
+                <li><a href="nos-cultes.html">Nos Cultes</a></li>
+                <li><a href="cultes.html">Vidéo - Audio Culte</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h4>Contact</h4>
+            <p>📍 Libreville, Gabon</p>
+            <p>contact@onctionministry.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ONCTION MINISTRY TV - Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="js/slideshow.js"></script>
+</body>
+</html>

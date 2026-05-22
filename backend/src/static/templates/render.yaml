@@ -1,0 +1,14 @@
+services:
+  # Le Backend (Instance Standard)
+  - type: web
+    name: eglise-backend
+    env: python
+    plan: standard # Votre choix du modèle Standard à 25$
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn src.app:app
+
+  # Le Frontend (Gratuit)
+  - type: web
+    name: eglise-frontend
+    env: static
+    staticPublishDir: frontend/

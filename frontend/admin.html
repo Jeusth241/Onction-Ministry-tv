@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Onction Ministry</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
+        .container { max-width: 450px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        input, textarea, button { padding: 12px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; }
+        input:focus, textarea:focus { border-color: #007bff; outline: none; }
+        label { font-weight: bold; font-size: 13px; color: #555; margin-bottom: -10px; }
+        button { background-color: #007bff; color: white; cursor: pointer; border: none; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #0056b3; }
+        .message { padding: 10px; border-radius: 5px; text-align: center; display: none; font-weight: bold; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+     
+    <div class="container">
+        <h2>Ajouter un nouveau culte</h2>
+
+        <div id="msg-box" class="message"></div>
+
+        <form id="form-admin">
+            <input type="password" id="token" placeholder="Clé de sécurité Admin" required>
+            
+            <input type="text" id="titre" placeholder="Titre du culte (ex: Le mensonge...)" required>
+            
+            <input type="date" id="date_culte" required>
+            
+            <label for="drive_id_video">ID Google Drive de la VIDÉO :</label>
+            <input type="text" id="drive_id_video" placeholder="Ex: 1rbgVQ... (Laissez vide si aucun)" required>
+            
+            <label for="drive_id_audio">ID Google Drive de l'AUDIO (MP3) :</label>
+            <input type="text" id="drive_id_audio" placeholder="Ex: 1zAmNX... (Laissez vide si aucun)" required>
+            
+            <textarea id="description" placeholder="Description du culte" rows="4"></textarea>
+            
+            <button type="submit">Publier le culte</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('form-admin').addEventListener('submit', function(e) {
+            e.preventDefault(); // Empêche la page de se recharger
+
+            const msgBox = document.getElementById('msg-box');
+            msgBox.style.display = 'none';
+
+            // 1. On récupère toutes les valeurs saisies dans le formulaire
+            const data = {
+                token: document.getElementById('token').value,
+                titre: document.getElementById('titre').value,
+                date_culte: document.getElementById('date_culte').value,
+                video_drive_id: document.getElementById('drive_id_video').value,
+                audio_drive_id: document.getElementById('drive_id_audio').value, // On envoie l'audio au backend
+                description: document.getElementById('description').value
+            };
+
+            // 2. Envoi des données vers ton API Flask (Backend)
+            fetch('http://localhost:5000/api/cultes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json().then(resData => ({ status: response.status, body: resData })))
+            .then(res => {
+                if (res.status === 201 || res.status === 200) {
+                    // Si ça fonctionne
+                    msgBox.className = "message success";
+                    msgBox.innerText = "✨ Culte publié avec succès dans la base de données !";
+                    msgBox.style.display = "block";
+                    document.getElementById('form-admin').reset(); // Vide le formulaire
+                } else {
+                    // Si le backend renvoie une erreur (ex: mauvaise clé de sécurité)
+                    msgBox.className = "message error";
+                    msgBox.innerText = "❌ Erreur : " + (res.body.message || "Impossible de publier");
+                    msgBox.style.display = "block";
+                }
+            })
+            .catch(error => {
+                // Si le serveur Flask est éteint
+                console.error("Erreur de connexion:", error);
+                msgBox.className = "message error";
+                msgBox.innerText = "⚠️ Connexion impossible avec le serveur Flask. Est-il allumé ?";
+                msgBox.style.display = "block";
+            });
+        });
+    </script>
+</body>
+</html>

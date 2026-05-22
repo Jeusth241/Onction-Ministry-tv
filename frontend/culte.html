@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onction Ministry TV - Jours de Culte & Agenda</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #e91e63;
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+        .planning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card-planning {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #007bff;
+            transition: transform 0.2s;
+        }
+        .card-planning:hover { transform: translateY(-5px); }
+        .card-planning.evenement { border-top-color: #e91e63; }
+        .card-planning h4 { margin: 0 0 12px 0; font-size: 1.3rem; color: #1a202c; }
+        .card-planning .horaire { font-weight: bold; color: #4a5568; margin-bottom: 12px; font-size: 1rem; }
+        .card-planning p { color: #718096; line-height: 1.5; margin: 0; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo-container">
+        <img src="image/image1.jpg" alt="Logo" class="logo-rond">
+        <span class="logo-text">ONCTION MINISTRY TV</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="Qui sommes-nous.html">Qui sommes-nous ?</a></li>
+        <li><a href="culte.html">Nos Cultes</a></li>
+        <li><a href="contacts.html">Contacts</a></li>
+        <li><a href="audio-video.html" class="btn-media" style="background-color: #f1c40f; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none;">Vidéo - Audio Culte</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2 class="section-title">📅 Agenda & Planification de l'Église</h2>
+    
+    <div class="planning-grid">
+        <div class="card-planning">
+            <h4>Culte d'Adoration et de Louange</h4>
+            <div class="horaire">🕒 Chaque Dimanche — 09h00 à 12h00</div>
+            <p>Venez partager un moment fort de communion fraternelle, de louange dynamique et d'écoute de la parole inspirée.</p>
+        </div>
+
+        <div class="card-planning">
+            <h4>Enseignement & Intercession</h4>
+            <div class="horaire">🕒 Chaque Mercredi — 18h00 à 20h00</div>
+            <p>Un rendez-vous en milieu de semaine pour approfondir les Saintes Écritures et porter nos requêtes de prière ensemble.</p>
+        </div>
+
+        <div class="card-planning evenement">
+            <h4>🔥 Grande Nuit de Traversée</h4>
+            <div class="horaire">📅 Vendredi 31 Décembre — À partir de 22h00</div>
+            <p>Un programme exceptionnel pour clore l'année dans la présence de Dieu et franchir la nouvelle saison avec déclarations prophétiques.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
