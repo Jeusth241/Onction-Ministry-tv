@@ -50,6 +50,62 @@
         .card-planning h4 { margin: 0 0 12px 0; font-size: 1.3rem; color: #1a202c; }
         .card-planning .horaire { font-weight: bold; color: #4a5568; margin-bottom: 12px; font-size: 1rem; }
         .card-planning p { color: #718096; line-height: 1.5; margin: 0; }
+
+        /* ==========================================================================
+           ADAPTATION ÉCRANS MOBILES (Smartphone et Tablettes verticales)
+           ========================================================================== */
+        @media screen and (max-width: 768px) {
+            /* 1. Rendre la barre de navigation responsive */
+            .navbar {
+                flex-direction: column !important;
+                padding: 15px 10px !important;
+                gap: 15px !important;
+            }
+            .nav-links {
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 10px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .nav-links li {
+                width: 100% !important;
+                text-align: center !important;
+            }
+            .nav-links a, .btn-media {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 12px !important; /* Zone de clic plus large au doigt */
+            }
+
+            /* 2. Ajustements de la page et de la grille d'agenda */
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            .section-title {
+                font-size: 1.4rem;
+                margin-bottom: 30px;
+            }
+            .planning-grid {
+                /* Sur petit écran, on force une seule colonne propre */
+                grid-template-columns: 1fr; 
+                gap: 15px;
+            }
+            .card-planning {
+                padding: 20px;
+            }
+            .card-planning h4 {
+                font-size: 1.15rem;
+            }
+            .card-planning .horaire {
+                font-size: 0.9rem;
+            }
+            .card-planning p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>

@@ -46,6 +46,76 @@
         .btn-green { display: inline-flex; align-items: center; gap: 8px; background-color: #2ecc71; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s ease; border: none; }
         .btn-green:hover { background-color: #27ae60; }
         .no-data { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
+
+        /* ==========================================================================
+           ADAPTATION ÉCRANS MOBILES (Smartphone et Tablettes verticales)
+           ========================================================================== */
+        @media screen and (max-width: 768px) {
+            /* 1. Rendre la barre de navigation responsive */
+            .navbar {
+                flex-direction: column !important;
+                padding: 15px 10px !important;
+                gap: 15px !important;
+            }
+            .nav-links {
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 10px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .nav-links li {
+                width: 100% !important;
+                text-align: center !important;
+            }
+            .nav-links a, .btn-media {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 12px !important; /* Plus d'espace pour cliquer au doigt */
+            }
+
+            /* 2. Ajustement des espacements généraux */
+            .container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+            .culte-container {
+                padding: 15px;
+            }
+
+            /* 3. Passage du lecteur et des téléchargements sur une seule colonne */
+            .culte-body {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .culte-player, 
+            .culte-download-panel {
+                width: 100% !important;
+                min-width: 100% !important;
+                flex: none;
+            }
+
+            /* 4. Améliorations de l'affichage des tableaux de téléchargement */
+            .tab-content {
+                padding: 15px 10px;
+            }
+            .download-table td {
+                padding: 12px 5px;
+                font-size: 0.85rem;
+            }
+            .btn-green {
+                padding: 10px;
+                font-size: 0.85rem;
+                justify-content: center;
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
     </style>
 </head>
 <body>
@@ -63,7 +133,6 @@
         <li><a href="audio-video.html" class="btn-media" style="background-color: #f1c40f; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none;">Vidéo - Audio Culte</a></li>
     </ul>
 </nav>
-
 
 <div class="container">
     <h2>🎥 Vidéos & Audios des Cultes</h2>
