@@ -53,7 +53,7 @@ def ajouter_culte():
         return jsonify({"status": "success", "message": "Culte ajouté avec succès !"}), 201
     
     except Exception as e:
-        # Affiche l'erreur précise dans le terminal VS Code
+        # Affiche l'erreur précise dans les logs Render ou VS Code
         print(f"ERREUR D'INSERTION : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
@@ -69,9 +69,8 @@ def recuperer_cultes():
         conn.close()
         return jsonify(resultats)
     except Exception as e:
+        print(f"ERREUR DE RÉCUPÉRATION : {e}")
         return jsonify({"error": str(e)}), 500
     
-# À la toute fin de app.py
 if __name__ == '__main__':
-    # host='0.0.0.0' permet de débloquer les connexions sur Windows
     app.run(debug=True, host='0.0.0.0', port=5000)

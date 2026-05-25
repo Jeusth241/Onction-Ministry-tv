@@ -1,50 +1,40 @@
+import os
 import psycopg2
-import sys
 
 def get_db_connection():
-    try:
-        # On utilise les paramètres nommés plutôt qu'une URL
-        conn = psycopg2.connect(
+    # On cherche la variable de la base de données en ligne (Render)
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    
+    if DATABASE_URL:
+        # Connexion au PostgreSQL en ligne sur Render
+        return psycopg2.connect(DATABASE_URL)
+    else:
+        # Connexion locale sur ton PC
+        return psycopg2.connect(
             host="127.0.0.1",
-            port="5432",
             database="onction_ministry",
             user="postgres",
-            password="jeusth2000",
-            connect_timeout=3
+            password="jeusth2000"  # Remets ton mot de passe local si nécessaire
         )
-        # On force l'encodage de la session
-        conn.set_client_encoding('UTF8')
-        return conn
-    except Exception as e:
-        print("--- TENTATIVE DE DÉCODAGE DE L'ERREUR ---")
-        try:
-            # Si l'erreur contient des caractères spéciaux, on les nettoie
-            raw_msg = str(e).encode('cp1252', errors='replace').decode('utf-8', errors='replace')
-            print(f"Message (nettoyé) : {raw_msg}")
-        except:
-            print("Impossible d'afficher le message d'erreur (problème d'encodage Windows).")
-        
-        print("CONSEIL : Vérifie si pgAdmin est ouvert et si la base 'onction_ministry' existe.")
-        return None
 
 def init_db():
-    conn = get_db_connection()
-    if conn:
+    try:
+        conn = get_db_connection()
         cur = conn.cursor()
-        # Mise à jour des colonnes : video_drive_id et audio_drive_id
-        cur.execute('''
+        # Création automatique de la table si elle n'existe pas
+        cur.execute("""
             CREATE TABLE IF NOT EXISTS cultes (
                 id SERIAL PRIMARY KEY,
-                titre TEXT NOT NULL,
+                titre VARCHAR(255) NOT NULL,
                 date_culte DATE NOT NULL,
                 description TEXT,
-                video_drive_id TEXT,
-                audio_drive_id TEXT
+                video_drive_id VARCHAR(255),
+                audio_drive_id VARCHAR(255)
             );
-        ''')
+        """)
         conn.commit()
         cur.close()
         conn.close()
-        print("Base de données initialisée avec succès avec la nouvelle structure !")
-    else:
-        print("Échec de l'initialisation : la connexion a renvoyé None.")
+        print("Base de données initialisée avec succès.")
+    except Exception as e:
+        print(f"Erreur lors de l'initialisation de la base : {e}")
