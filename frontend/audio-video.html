@@ -51,7 +51,6 @@
            ADAPTATION ÉCRANS MOBILES (Smartphone et Tablettes verticales)
            ========================================================================== */
         @media screen and (max-width: 768px) {
-            /* 1. Rendre la barre de navigation responsive */
             .navbar {
                 flex-direction: column !important;
                 padding: 15px 10px !important;
@@ -72,10 +71,9 @@
                 display: block !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
-                padding: 12px !important; /* Plus d'espace pour cliquer au doigt */
+                padding: 12px !important;
             }
 
-            /* 2. Ajustement des espacements généraux */
             .container {
                 margin: 20px auto;
                 padding: 0 12px;
@@ -88,7 +86,6 @@
                 padding: 15px;
             }
 
-            /* 3. Passage du lecteur et des téléchargements sur une seule colonne */
             .culte-body {
                 flex-direction: column;
                 gap: 20px;
@@ -100,7 +97,6 @@
                 flex: none;
             }
 
-            /* 4. Améliorations de l'affichage des tableaux de téléchargement */
             .tab-content {
                 padding: 15px 10px;
             }
@@ -150,7 +146,6 @@
         panelContainer.querySelector(`#${panelId}`).classList.add('active');
     }
 
-    // On cible la route précise déclarée dans ton app.py
     const backendUrl = 'http://127.0.0.1:5000/api/cultes'; 
     const conteneur = document.getElementById('liste-cultes');
 
@@ -172,7 +167,6 @@
                 const blocCulte = document.createElement('div');
                 blocCulte.className = 'culte-container';
 
-                // Formatage de la date SQL (date_culte) reçue de PostgreSQL
                 let dateAffichee = culte.date_culte;
                 if(dateAffichee && dateAffichee.includes('00:00:00')) {
                     dateAffichee = dateAffichee.split(' ')[0];
@@ -185,7 +179,8 @@
                     </div>
                     <div class="culte-body">
                         <div class="culte-player">
-                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/preview" allow="autoplay" allowfullscreen></iframe>
+                         // Par cette ligne mise à jour :
+                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/embed" allow="autoplay" allowfullscreen></iframe>
                         </div>
                         <div class="culte-download-panel">
                             <div class="tabs-header">
@@ -198,7 +193,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Version Audio (MP3)</td>
-                                            <td><a href="https://drive.google.com/uc?export=download&id=${culte.audio_drive_id}" class="btn-green" target="_blank">📥 Download</a></td>
+                                            <td><a href="https://drive.google.com/file/d/${culte.audio_drive_id}/view?usp=sharing" class="btn-green" target="_blank">📥 Download</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -209,7 +204,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Fichier Vidéo (MP4)</td>
-                                            <td><a href="https://drive.google.com/uc?export=download&id=${culte.video_drive_id}" class="btn-green" target="_blank">📥 Download</a></td>
+                                            <td><a href="https://drive.google.com/file/d/${culte.video_drive_id}/view?usp=sharing" class="btn-green" target="_blank">📥 Download</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
