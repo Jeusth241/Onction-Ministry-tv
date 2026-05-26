@@ -3,96 +3,320 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration - Onction Ministry</title>
+    <title>Administration - Onction Ministry TV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
-        .container { max-width: 450px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; margin-bottom: 20px; }
-        form { display: flex; flex-direction: column; gap: 15px; }
-        input, textarea, button { padding: 12px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; }
-        input:focus, textarea:focus { border-color: #007bff; outline: none; }
-        label { font-weight: bold; font-size: 13px; color: #555; margin-bottom: -10px; }
-        button { background-color: #007bff; color: white; cursor: pointer; border: none; font-weight: bold; font-size: 16px; margin-top: 10px; }
-        button:hover { background-color: #0056b3; }
-        .message { padding: 10px; border-radius: 5px; text-align: center; display: none; font-weight: bold; }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        :root {
+            --bg-white: #ffffff;
+            --card-light: #fdfdfd;
+            --accent-gold: #f1c40f;
+            --accent-gold-dark: #d4ac0d;
+            --text-main: #333333;
+            --text-muted: #777777;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --border-light: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-white);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-container {
+            width: 100%;
+            max-width: 550px;
+            background-color: var(--card-light);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-light);
+            padding: 40px;
+            position: relative;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-section .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .header-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, textarea {
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-light);
+            padding: 14px 16px;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.1);
+            background-color: #ffffff;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #aaaaaa;
+        }
+
+        button {
+            background-color: var(--accent-gold);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(241, 196, 15, 0.2);
+        }
+
+        button:hover {
+            background-color: var(--accent-gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(241, 196, 15, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #e0e0e0;
+            color: #aaaaaa;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .back-to-site {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 25px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            width: 100%;
+            transition: color 0.3s ease;
+        }
+
+        .back-to-site:hover {
+            color: var(--accent-gold);
+        }
+
+        .notification {
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .notification.success-style {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .notification.error-style {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-     
-    <div class="container">
-        <h2>Ajouter un nouveau culte</h2>
 
-        <div id="msg-box" class="message"></div>
+    <div class="admin-container">
+        
+        <div class="header-section">
+            <div class="logo-icon"><i class="fa-solid fa-sliders"></i></div>
+            <h2>Espace Publication</h2>
+            <p>Ajoutez un culte sur Render & PostgreSQL</p>
+        </div>
 
-        <form id="form-admin">
-            <input type="password" id="token" placeholder="Clé de sécurité Admin" required>
-            
-            <input type="text" id="titre" placeholder="Titre du culte (ex: Le mensonge...)" required>
-            
-            <input type="date" id="date_culte" required>
-            
-            <label for="drive_id_video">ID Google Drive de la VIDÉO :</label>
-            <input type="text" id="drive_id_video" placeholder="Ex: 1rbgVQ... (Laissez vide si aucun)" required>
-            
-            <label for="drive_id_audio">ID Google Drive de l'AUDIO (MP3) :</label>
-            <input type="text" id="drive_id_audio" placeholder="Ex: 1zAmNX... (Laissez vide si aucun)" required>
-            
-            <textarea id="description" placeholder="Description du culte" rows="4"></textarea>
-            
-            <button type="submit">Publier le culte</button>
+        <div id="status-notification" class="notification"></div>
+
+        <form id="admin-form-premium">
+            <div class="form-group">
+                <label for="token"><i class="fa-solid fa-lock"></i> Clé de Sécurité (Token Admin)</label>
+                <input type="password" id="token" placeholder="Entrez votre mot de passe administrateur" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="titre">Titre du Culte</label>
+                    <input type="text" id="titre" placeholder="ex: Culte de Réveil" required>
+                </div>
+                <div class="form-group">
+                    <label for="date_cultes">Date de Célébration</label>
+                    <input type="date" id="date_cultes" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Thème ou Résumé du Message</label>
+                <textarea id="description" rows="3" placeholder="Écrivez un court résumé ou les versets clés du culte..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="video_drive_id"><i class="fa-solid fa-video"></i> ID Vidéo Drive</label>
+                    <input type="text" id="video_drive_id" placeholder="ex: 1rbgVQ..." required>
+                </div>
+                <div class="form-group">
+                    <label for="audio_drive_id"><i class="fa-solid fa-microphone"></i> ID Audio Drive</label>
+                    <input type="text" id="audio_drive_id" placeholder="ex: 1zAmNX..." required>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-button">
+                <i class="fa-solid fa-paper-plane"></i> Mettre le culte en ligne
+            </button>
         </form>
+
+        <a href="audio-video.html" class="back-to-site">
+            <i class="fa-solid fa-arrow-left"></i> Retour à la page des médias
+        </a>
     </div>
 
     <script>
-        document.getElementById('form-admin').addEventListener('submit', function(e) {
-            e.preventDefault(); // Empêche la page de se recharger
+        const FORM = document.getElementById('admin-form-premium');
+        const SUBMIT_BTN = document.getElementById('submit-button');
+        const NOTIF = document.getElementById('status-notification');
 
-            const msgBox = document.getElementById('msg-box');
-            msgBox.style.display = 'none';
+        FORM.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            // 1. On récupère toutes les valeurs saisies dans le formulaire
-            const data = {
+            NOTIF.style.display = 'none';
+            
+            SUBMIT_BTN.disabled = true;
+            SUBMIT_BTN.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Traitement...';
+
+            const payload = {
                 token: document.getElementById('token').value,
                 titre: document.getElementById('titre').value,
-                date_culte: document.getElementById('date_culte').value,
-                video_drive_id: document.getElementById('drive_id_video').value,
-                audio_drive_id: document.getElementById('drive_id_audio').value, // On envoie l'audio au backend
-                description: document.getElementById('description').value
+                date_culte: document.getElementById('date_cultes').value,
+                description: document.getElementById('description').value,
+                video_drive_id: document.getElementById('video_drive_id').value,
+                audio_drive_id: document.getElementById('audio_drive_id').value
             };
 
-            // 2. Envoi des données vers ton API Flask (Backend)
-            fetch('http://localhost:5000/api/cultes', {
+            fetch('https://onction-ministry-tv.onrender.com/api/cultes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
             })
-            .then(response => response.json().then(resData => ({ status: response.status, body: resData })))
-            .then(res => {
-                if (res.status === 201 || res.status === 200) {
-                    // Si ça fonctionne
-                    msgBox.className = "message success";
-                    msgBox.innerText = "✨ Culte publié avec succès dans la base de données !";
-                    msgBox.style.display = "block";
-                    document.getElementById('form-admin').reset(); // Vide le formulaire
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(result => {
+                if (result.status === 201 || result.status === 200) {
+                    displayNotification('<i class="fa-solid fa-circle-check"></i> ✨ Le culte a été publié avec succès !', 'success-style');
+                    FORM.reset();
                 } else {
-                    // Si le backend renvoie une erreur (ex: mauvaise clé de sécurité)
-                    msgBox.className = "message error";
-                    msgBox.innerText = "❌ Erreur : " + (res.body.message || "Impossible de publier");
-                    msgBox.style.display = "block";
+                    const errorMsg = result.body.message || "Impossible de publier ce culte.";
+                    displayNotification(`<i class="fa-solid fa-triangle-exclamation"></i> Échec : ${errorMsg}`, 'error-style');
                 }
             })
             .catch(error => {
-                // Si le serveur Flask est éteint
-                console.error("Erreur de connexion:", error);
-                msgBox.className = "message error";
-                msgBox.innerText = "⚠️ Connexion impossible avec le serveur Flask. Est-il allumé ?";
-                msgBox.style.display = "block";
+                console.error('Erreur:', error);
+                displayNotification('<i class="fa-solid fa-wifi"></i> Connexion impossible avec le serveur. Vérifiez vos logs.', 'error-style');
+            })
+            .finally(() => {
+                SUBMIT_BTN.disabled = false;
+                SUBMIT_BTN.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Mettre le culte en ligne';
             });
         });
+
+        function displayNotification(htmlContent, className) {
+            NOTIF.innerHTML = htmlContent;
+            NOTIF.className = 'notification ' + className;
+            NOTIF.style.display = 'flex';
+        }
     </script>
 </body>
 </html>
