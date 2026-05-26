@@ -47,9 +47,6 @@
         .btn-green:hover { background-color: #27ae60; }
         .no-data { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
 
-        /* ==========================================================================
-           ADAPTATION ÉCRANS MOBILES (Smartphone et Tablettes verticales)
-           ========================================================================== */
         @media screen and (max-width: 768px) {
             .navbar {
                 flex-direction: column !important;
@@ -73,7 +70,6 @@
                 box-sizing: border-box !important;
                 padding: 12px !important;
             }
-
             .container {
                 margin: 20px auto;
                 padding: 0 12px;
@@ -85,7 +81,6 @@
             .culte-container {
                 padding: 15px;
             }
-
             .culte-body {
                 flex-direction: column;
                 gap: 20px;
@@ -96,7 +91,6 @@
                 min-width: 100% !important;
                 flex: none;
             }
-
             .tab-content {
                 padding: 15px 10px;
             }
@@ -179,8 +173,7 @@
                     </div>
                     <div class="culte-body">
                         <div class="culte-player">
-                         // Par cette ligne mise à jour :
-                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/embed" allow="autoplay" allowfullscreen></iframe>
+                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/preview" allow="autoplay" allowfullscreen></iframe>
                         </div>
                         <div class="culte-download-panel">
                             <div class="tabs-header">
