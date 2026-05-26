@@ -1,14 +1,16 @@
 services:
-  # Le Backend (Instance Standard)
+  # 1. Le Backend (Serveur Flask)
   - type: web
-    name: eglise-backend
-    env: python
-    plan: standard # Votre choix du modèle Standard à 25$
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn src.app:app
+    name: onction-ministry-backend
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn --chdir backend/src app:app"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
 
-  # Le Frontend (Gratuit)
+  # 2. Le Frontend (Le site visuel HTML)
   - type: web
-    name: eglise-frontend
-    env: static
-    staticPublishDir: frontend/
+    name: onction-ministry-frontend
+    runtime: static
+    publishBy: Frontend
