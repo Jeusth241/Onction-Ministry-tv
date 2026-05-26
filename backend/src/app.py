@@ -15,6 +15,13 @@ ADMIN_KEY = os.environ.get('ADMIN_SECRET_KEY', 'jeusth2000')
 def check_auth(key):
     return key == ADMIN_KEY
 
+
+# --- ROUTE D'ACCUEIL (Pour saluer Render et éviter l'erreur 404 dans les logs) ---
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"status": "online", "message": "Backend Onction Ministry TV actif !"}), 200
+
+
 # --- ROUTE POUR AJOUTER UN CULTE (POST) ---
 @app.route('/api/cultes', methods=['POST'])
 def ajouter_culte():
@@ -57,6 +64,7 @@ def ajouter_culte():
         print(f"ERREUR D'INSERTION : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
+
 # --- ROUTE POUR RÉCUPÉRER LES CULTES (GET) ---
 @app.route('/api/cultes', methods=['GET'])
 def recuperer_cultes():
@@ -71,11 +79,10 @@ def recuperer_cultes():
     except Exception as e:
         print(f"ERREUR DE RÉCUPÉRATION : {e}")
         return jsonify({"error": str(e)}), 500
-    
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
-    
-    # --- ROUTE POUR SUPPRIMER UN CULTE (DELETE) ---
+
+
+# --- ROUTE POUR SUPPRIMER UN CULTE (DELETE) ---
+# (Placée ici TOUT EN HAUT pour être bien lue par Flask)
 @app.route('/api/cultes/<int:culte_id>', methods=['DELETE'])
 def supprimer_culte(culte_id):
     try:
@@ -107,3 +114,8 @@ def supprimer_culte(culte_id):
     except Exception as e:
         print(f"ERREUR DE SUPPRESSION : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+# ⚠️ TOUJOURS PLACER CETTE LIGNE TOUT EN BAS DU FICHIER !
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
