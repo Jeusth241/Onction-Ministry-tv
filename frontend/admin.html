@@ -34,9 +34,10 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: flex-start;
+            padding: 40px 20px;
         }
 
         .admin-container {
@@ -48,6 +49,7 @@
             border: 1px solid var(--border-light);
             padding: 40px;
             position: relative;
+            margin-bottom: 30px;
         }
 
         .header-section {
@@ -141,6 +143,7 @@
             gap: 10px;
             margin-top: 10px;
             box-shadow: 0 4px 10px rgba(241, 196, 15, 0.2);
+            width: 100%;
         }
 
         button:hover {
@@ -202,6 +205,61 @@
             color: #721c24;
         }
 
+        /* --- STYLES DU PANNEAU DE SUPPRESSION --- */
+        .management-panel {
+            width: 100%;
+            max-width: 550px;
+            background-color: var(--card-light);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-light);
+            padding: 30px;
+        }
+
+        .management-panel h3 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f5f5f5;
+            padding-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .culte-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        .culte-info h4 {
+            font-size: 0.95rem;
+            color: #222;
+            margin-bottom: 2px;
+        }
+
+        .culte-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-delete {
+            background-color: #ef4444;
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            box-shadow: none;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .btn-delete:hover {
+            background-color: #dc2626;
+            transform: scale(1.02);
+            box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -257,22 +315,94 @@
                 <i class="fa-solid fa-paper-plane"></i> Mettre le culte en ligne
             </button>
         </form>
+    </div>
 
+    <div class="management-panel">
+        <h3>📋 Liste & Suppression des Cultes</h3>
+        <div id="liste-gestion-cultes">
+            <p style="text-align:center; color:var(--text-muted); font-style:italic;">Chargement des cultes...</p>
+        </div>
+        
         <a href="audio-video.html" class="back-to-site">
             <i class="fa-solid fa-arrow-left"></i> Retour à la page des médias
         </a>
     </div>
 
     <script>
+        const API_URL = 'https://onction-ministry-tv.onrender.com/api/cultes';
         const FORM = document.getElementById('admin-form-premium');
         const SUBMIT_BTN = document.getElementById('submit-button');
         const NOTIF = document.getElementById('status-notification');
+        const GESTION_CONTAINER = document.getElementById('liste-gestion-cultes');
 
+        // Fonction pour charger la liste des cultes modifiable
+        function chargerCultesGestion() {
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(cultes => {
+                    GESTION_CONTAINER.innerHTML = '';
+                    if(cultes.length === 0) {
+                        GESTION_CONTAINER.innerHTML = '<p style="text-align:center; color:var(--text-muted);">Aucun culte enregistré pour le moment.</p>';
+                        return;
+                    }
+                    cultes.forEach(culte => {
+                        let netDate = culte.date_culte ? culte.date_culte.split(' ')[0] : 'Date inconnue';
+                        const div = document.createElement('div');
+                        div.className = 'culte-item';
+                        div.innerHTML = `
+                            <div class="culte-info">
+                                <h4>${culte.titre}</h4>
+                                <p>📅 ${netDate}</p>
+                            </div>
+                            <button class="btn-delete" onclick="supprimerCulte(${culte.id})">
+                                <i class="fa-solid fa-trash"></i> Supprimer
+                            </button>
+                        `;
+                        GESTION_CONTAINER.appendChild(div);
+                    });
+                })
+                .catch(err => {
+                    console.error("Erreur de chargement list :", err);
+                    GESTION_CONTAINER.innerHTML = '<p style="text-align:center; color:var(--error);">Impossible de récupérer la liste depuis Render.</p>';
+                });
+        }
+
+        // Fonction pour envoyer une requête DELETE
+        window.supprimerCulte = function(id) {
+            const token = document.getElementById('token').value;
+            if(!token) {
+                alert("🔒 Erreur : Veuillez d'abord taper votre Clé de Sécurité en haut du formulaire pour autoriser la suppression.");
+                document.getElementById('token').focus();
+                return;
+            }
+
+            if(confirm("⚠️ Confirmez-vous la suppression définitive de ce culte ?")) {
+                fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                })
+                .then(res => res.json().then(data => ({ status: res.status, body: data })))
+                .then(result => {
+                    if(result.status === 200 || result.body.status === "success") {
+                        displayNotification('✨ Culte supprimé avec succès de la base PostgreSQL !', 'success-style');
+                        chargerCultesGestion(); // Rafraîchit la liste
+                    } else {
+                        displayNotification('❌ Échec : ' + (result.body.message || "Action refusée"), 'error-style');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    displayNotification('⚠️ Erreur de connexion avec le serveur Render.', 'error-style');
+                });
+            }
+        };
+
+        // Soumission du formulaire (Ajout de culte)
         FORM.addEventListener('submit', function(event) {
             event.preventDefault();
 
             NOTIF.style.display = 'none';
-            
             SUBMIT_BTN.disabled = true;
             SUBMIT_BTN.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Traitement...';
 
@@ -285,7 +415,7 @@
                 audio_drive_id: document.getElementById('audio_drive_id').value
             };
 
-            fetch('https://onction-ministry-tv.onrender.com/api/cultes', {
+            fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -297,6 +427,7 @@
                 if (result.status === 201 || result.status === 200) {
                     displayNotification('<i class="fa-solid fa-circle-check"></i> ✨ Le culte a été publié avec succès !', 'success-style');
                     FORM.reset();
+                    chargerCultesGestion(); // Recharge immédiatement la liste
                 } else {
                     const errorMsg = result.body.message || "Impossible de publier ce culte.";
                     displayNotification(`<i class="fa-solid fa-triangle-exclamation"></i> Échec : ${errorMsg}`, 'error-style');
@@ -316,7 +447,11 @@
             NOTIF.innerHTML = htmlContent;
             NOTIF.className = 'notification ' + className;
             NOTIF.style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Charger la liste automatiquement à l'ouverture de la page
+        chargerCultesGestion();
     </script>
 </body>
 </html>

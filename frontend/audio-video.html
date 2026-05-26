@@ -48,63 +48,18 @@
         .no-data { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
 
         @media screen and (max-width: 768px) {
-            .navbar {
-                flex-direction: column !important;
-                padding: 15px 10px !important;
-                gap: 15px !important;
-            }
-            .nav-links {
-                flex-direction: column !important;
-                width: 100% !important;
-                gap: 10px !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .nav-links li {
-                width: 100% !important;
-                text-align: center !important;
-            }
-            .nav-links a, .btn-media {
-                display: block !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-                padding: 12px !important;
-            }
-            .container {
-                margin: 20px auto;
-                padding: 0 12px;
-            }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 25px;
-            }
-            .culte-container {
-                padding: 15px;
-            }
-            .culte-body {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .culte-player, 
-            .culte-download-panel {
-                width: 100% !important;
-                min-width: 100% !important;
-                flex: none;
-            }
-            .tab-content {
-                padding: 15px 10px;
-            }
-            .download-table td {
-                padding: 12px 5px;
-                font-size: 0.85rem;
-            }
-            .btn-green {
-                padding: 10px;
-                font-size: 0.85rem;
-                justify-content: center;
-                width: 100%;
-                box-sizing: border-box;
-            }
+            .navbar { flex-direction: column !important; padding: 15px 10px !important; gap: 15px !important; }
+            .nav-links { flex-direction: column !important; width: 100% !important; gap: 10px !important; padding: 0 !important; margin: 0 !important; }
+            .nav-links li { width: 100% !important; text-align: center !important; }
+            .nav-links a, .btn-media { display: block !important; width: 100% !important; box-sizing: border-box !important; padding: 12px !important; }
+            .container { margin: 20px auto; padding: 0 12px; }
+            h2 { font-size: 1.5rem; margin-bottom: 25px; }
+            .culte-container { padding: 15px; }
+            .culte-body { flex-direction: column; gap: 20px; }
+            .culte-player, .culte-download-panel { width: 100% !important; min-width: 100% !important; flex: none; }
+            .tab-content { padding: 15px 10px; }
+            .download-table td { padding: 12px 5px; font-size: 0.85rem; }
+            .btn-green { padding: 10px; font-size: 0.85rem; justify-content: center; width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
@@ -145,7 +100,7 @@
 
     fetch(backendUrl)
         .then(response => {
-            if (!response.ok) { throw new Error("Impossible de joindre le serveur Flask"); }
+            if (!response.ok) { throw new Error("Impossible de joindre le serveur"); }
             return response.json();
         })
         .then(cultes => {
@@ -166,6 +121,15 @@
                     dateAffichee = dateAffichee.split(' ')[0];
                 }
 
+                // Nettoyage des IDs au cas où le lien entier a été fourni en BDD
+                let videoIdClean = culte.video_drive_id || '';
+                if (videoIdClean.includes('d/')) videoIdClean = videoIdClean.split('d/')[1].split('/')[0];
+                if (videoIdClean.includes('id=')) videoIdClean = videoIdClean.split('id=')[1].split('&')[0];
+
+                let audioIdClean = culte.audio_drive_id || '';
+                if (audioIdClean.includes('d/')) audioIdClean = audioIdClean.split('d/')[1].split('/')[0];
+                if (audioIdClean.includes('id=')) audioIdClean = audioIdClean.split('id=')[1].split('&')[0];
+
                 blocCulte.innerHTML = `
                     <div class="culte-header">
                         <h3>${culte.titre}</h3>
@@ -173,7 +137,7 @@
                     </div>
                     <div class="culte-body">
                         <div class="culte-player">
-                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/preview" allow="autoplay" allowfullscreen></iframe>
+                            <iframe src="https://drive.google.com/file/d/${videoIdClean}/embed" allow="autoplay" allowfullscreen></iframe>
                         </div>
                         <div class="culte-download-panel">
                             <div class="tabs-header">
@@ -186,7 +150,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Version Audio (MP3)</td>
-                                            <td><a href="https://drive.google.com/file/d/${culte.audio_drive_id}/view?usp=sharing" class="btn-green" target="_blank">📥 Download</a></td>
+                                            <td><a href="https://drive.google.com/file/d/${audioIdClean}/view?usp=sharing" class="btn-green" target="_blank">📥 Download</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -197,7 +161,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Fichier Vidéo (MP4)</td>
-                                            <td><a href="https://drive.google.com/file/d/${culte.video_drive_id}/view?usp=sharing" class="btn-green" target="_blank">📥 Download</a></td>
+                                            <td><a href="https://drive.google.com/file/d/${videoIdClean}/view?usp=sharing" class="btn-green" target="_blank">📥 Download</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -210,7 +174,7 @@
         })
         .catch(error => {
             console.error("Erreur:", error);
-            conteneur.innerHTML = `<p class="no-data" style="color:red;">⚠️ Erreur de connexion avec le serveur Backend Flask. Assure-toi qu'il est bien démarré.</p>`;
+            conteneur.innerHTML = `<p class="no-data" style="color:red;">⚠️ Erreur de connexion avec le serveur Backend. Assure-toi qu'il est bien démarré.</p>`;
         });
 </script>
 </body>

@@ -74,3 +74,36 @@ def recuperer_cultes():
     
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # --- ROUTE POUR SUPPRIMER UN CULTE (DELETE) ---
+@app.route('/api/cultes/<int:culte_id>', methods=['DELETE'])
+def supprimer_culte(culte_id):
+    try:
+        data = request.json
+        user_key = data.get('token') if data else None
+        
+        # Vérification de sécurité
+        if not check_auth(user_key):
+            return jsonify({"status": "error", "message": "Accès refusé : Clé de sécurité invalide"}), 401
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+        
+        # On vérifie d'abord si le culte existe
+        cur.execute("SELECT id FROM cultes WHERE id = %s", (culte_id,))
+        if not cur.fetchone():
+            cur.close()
+            conn.close()
+            return jsonify({"status": "error", "message": "Culte introuvable"}), 404
+
+        # Suppression de la ligne
+        cur.execute("DELETE FROM cultes WHERE id = %s", (culte_id,))
+        conn.commit()
+        
+        cur.close()
+        conn.close()
+        return jsonify({"status": "success", "message": "Culte supprimé avec succès !"}), 200
+
+    except Exception as e:
+        print(f"ERREUR DE SUPPRESSION : {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
