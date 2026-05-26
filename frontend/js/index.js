@@ -2,7 +2,10 @@ async function chargerCultes() {
     const container = document.getElementById('container-cultes');
     
     try {
-        const response = await fetch('https://onction-ministry-tv.onrender.com');
+        // 1. AJOUTE LA ROUTE EXACTE ICI (Exemple: /api/cultes ou /cultes)
+        const response = await fetch('https://onction-ministry-tv.onrender.com/api/cultes');
+        
+        if (!response.ok) throw new Error("Erreur serveur");
         const cultes = await response.json();
 
         container.innerHTML = cultes.map(culte => `
@@ -17,6 +20,7 @@ async function chargerCultes() {
         `).join('');
 
     } catch (error) {
+        console.error(error); // Permet de voir le vrai problème dans la console Inspecter (F12)
         container.innerHTML = "<p>Erreur lors du chargement des cultes.</p>";
     }
 }
