@@ -2,7 +2,7 @@ async function chargerCultes() {
     const container = document.getElementById('container-cultes');
     
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/cultes');
+        const response = await fetch('https://onction-ministry-tv.onrender.com');
         const cultes = await response.json();
 
         container.innerHTML = cultes.map(culte => `
