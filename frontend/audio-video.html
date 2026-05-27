@@ -133,11 +133,11 @@
                 blocCulte.innerHTML = `
                     <div class="culte-header">
                         <h3>${culte.titre}</h3>
-                        <div class="culte-date">📅 Date du culte : ${dateAffichee}</div>
+                        <div class="culte-date"> Date du culte : ${dateAffichee}</div>
                     </div>
                     <div class="culte-body">
                         <div class="culte-player">
-                            <iframe src="https://drive.google.com/file/d/${videoIdClean}/embed" allow="autoplay" allowfullscreen></iframe>
+                            <iframe src="https://drive.google.com/file/d/${culte.video_drive_id}/preview" width="100%" height="360" allow="autoplay"></iframe>
                         </div>
                         <div class="culte-download-panel">
                             <div class="tabs-header">
